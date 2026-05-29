@@ -189,6 +189,7 @@ if (TELEGRAM_TOKEN && TELEGRAM_TOKEN !== 'your_telegram_bot_token_here') {
       this.outputBuffer = '';
       this.debounceTimer = null;
       this.isMutedForTelegram = false;
+      this.isAiThinking = false;
       this.dynamicMenuOptions = [];
       this.lastUserMessage = '';
       this.lastSentStepIndex = -1;
@@ -240,6 +241,7 @@ if (TELEGRAM_TOKEN && TELEGRAM_TOKEN !== 'your_telegram_bot_token_here') {
           const latestResponse = getLatestTranscriptResponse(this.lastUserMessage);
           if (latestResponse && latestResponse.step_index > this.lastSentStepIndex) {
               this.lastSentStepIndex = latestResponse.step_index;
+              this.isAiThinking = false; // AI 작업 완료!
               if (latestResponse.content) {
                   const chunks = latestResponse.content.match(/[\s\S]{1,4000}/g) || [];
                   chunks.forEach(chunk => bot.sendMessage(this.chatId, chunk));
@@ -250,9 +252,8 @@ if (TELEGRAM_TOKEN && TELEGRAM_TOKEN !== 'your_telegram_bot_token_here') {
               // 이때는 버퍼를 지우지 않고 아래의 TUI Fallback 로직이 터미널 화면을 보내도록 넘깁니다!
           }
 
-          // 터미널 프롬프트('>')가 다시 나타날 때까지(작업 중)는 TUI 찌꺼기를 보내지 않고 대기
-          const plainOutput = this.outputBuffer.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
-          if (!plainOutput.trim().endsWith('>') && !plainOutput.toLowerCase().includes('error')) {
+          // AI가 아직 생각 중이라면 중간 TUI 찌꺼기를 보내지 않고 대기합니다!
+          if (this.isAiThinking && !this.outputBuffer.toLowerCase().includes('error')) {
               return; 
           }
 
@@ -417,6 +418,12 @@ if (TELEGRAM_TOKEN && TELEGRAM_TOKEN !== 'your_telegram_bot_token_here') {
     }
 
     bot.sendChatAction(chatId, 'typing').catch(() => {});
+    
+    // 명령어가 아닌 일반 메시지면 AI가 생각하기 시작한 것으로 간주 (스팸 뮤트 활성화)
+    if (!text.startsWith('/')) {
+        session.isAiThinking = true;
+    }
+    
     if (session.agy.ptyProcess) session.agy.ptyProcess.write('\x03');
     setTimeout(() => session.agy.execute(text), 100);
   });
