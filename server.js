@@ -245,6 +245,11 @@ if (TELEGRAM_TOKEN && TELEGRAM_TOKEN !== 'your_telegram_bot_token_here') {
               this.outputBuffer = '';
               return;
           }
+          // 터미널 프롬프트('>')가 다시 나타날 때까지(작업 중)는 TUI 찌꺼기를 보내지 않고 대기
+          const plainOutput = this.outputBuffer.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
+          if (!plainOutput.trim().endsWith('>') && !plainOutput.toLowerCase().includes('error')) {
+              return; 
+          }
 
           if (this.outputBuffer.trim()) {
             let cleanedText = this.outputBuffer.split('\n').map(line => {
