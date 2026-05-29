@@ -1,138 +1,0 @@
-]0;C:\WINDOWS\system32\cmd.exe
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-4;2m1;1u[?u
-     ▄▀▀▄
-    ▀▀▀▀▀▀
-   ▀▀▀▀▀▀▀▀
-  ▄▀▀    ▀▀▄
- ▄▀▀      ▀▀▄
-
- Welcome to the Antigravity CLI. You are currently not signed in.
-
- ⣷  Signing in...
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- ⣯ ]0;npm]0;npm exec mcp-figma ⣟  ⡿  ⢿  ⣻  ⣽  ⣾  ⣷  ⣯  ⣟  ⡿  ⢿  ⣻  ⣽ ]0;C:\WINDOWS\system32\cmd.exe  ⣾  ⣷  ⣯  ⣟  ⡿  ⢿  ⣻  ⣽  ⣾  ⣷ ]0;npm]0;npm exec @netlify/mcp ⣯  q   ▄▀▀▄        Antigravity CLI 1.0.3 ▀▀▀▀▀▀       rimuruocta@gmail.com
-    ▀▀▀▀▀▀▀▀      Gemini 3.5 Flash (Medium)
-   ▄▀▀    ▀▀▄     D:/remote/backend
-  ▄▀▀      ▀▀▄────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
->
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-? for shortcuts                                                                                Gemini 3.5 Flash (Medium)자기소개해⣾ Generating...esc to cancel  
-> 자기소개해봐
-⣾ Generating...
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
->
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-esc to cancel                                                                                  Gemini 3.5 Flash (Medium)]0;C:\WINDOWS\system32\cmd.exe ⣷ Generating...⣯ Genera⣟ Generati⡿ Generatin⢿ Generating⣻ Generating.⣽ Generating...
-  안녕하세
-⣽ Generating...
-└ Tip: View and review artifacts with /artifact.
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
->
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-esc to cancel                                                                                  Gemini 3.5 Flash (Medium)요! 저는
-⣾ Google DeepMind의 Advanced AgenticCoding 팀��g.이 개발한AI 코딩 어시스턴��트 Antigrav
-⣷ ity입니�다. 
-X
-  개발자님과 ��X
-⣷ Generating...
-└ Tip: View and review artifacts with /artifact.>
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-esc to cancel                                                                                  Gemini 3.5 Flash (Medium)함께 페어프로그래밍을 하며 다음과같은 작��
-⣯ 업을 수행�..할 수 있습니다.
-X
-  • 코드 작성 및 수정: 새로운 기능 구현, 버그 수정 및 리팩터링X
-  • 코드베이스 탐색 및 분석: 기존 코드 분석 및 아키텍처 이해
-  • 웹 개발: HTML, CSS, JavaScript 등을 활용한 아름다운 웹 애플리케이션 디자인 및 개발X
-  • 환경 진단 및 도구 실행: CLI 명령어 실행, 문제 해결 등
-
-  필요하신 작업이 있다면 언제든 편하게 말씀해 주세요!
-⣯ Generating...
-└ Tip: View and review artifacts with /artifact.
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
->
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-esc to cancel                                                                                  Gemini 3.5 Flash (Medium)⣟ Generating...⡿ ⢿ ⣻ ⣽ ⣾ ⣷ G⣯ Ge⣟ Gene⡿ Gener⢿ Genera (Google AI Pro)⣻ Generat⣽ Generatin⣾ Generating⣷ Generating.⣯ Generating..⣟ Generating...]0;npm]0;npm exec @supabase/mcp-server-supabase@latest --access-token sbp_7cd8f55b6539b54bab94d6efdb7056aad7645e52⡿ Generating..⢿ ⣻ Generating..⣽ Generating...⣾ ⣷ ⣯ 
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
->
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-? for shortcuts                                                                                Gemini 3.5 Flash (Medium)                                                                                                                        
-
-
-
-
-
-
-
-
-
-
-
-
-
-]0;C:\WINDOWS\system32\cmd.exe 

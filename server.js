@@ -240,11 +240,16 @@ if (TELEGRAM_TOKEN && TELEGRAM_TOKEN !== 'your_telegram_bot_token_here') {
           const latestResponse = getLatestTranscriptResponse(this.lastUserMessage);
           if (latestResponse && latestResponse.step_index > this.lastSentStepIndex) {
               this.lastSentStepIndex = latestResponse.step_index;
-              const chunks = latestResponse.content.match(/[\s\S]{1,4000}/g) || [];
-              chunks.forEach(chunk => bot.sendMessage(this.chatId, chunk));
-              this.outputBuffer = '';
-              return;
+              if (latestResponse.content) {
+                  const chunks = latestResponse.content.match(/[\s\S]{1,4000}/g) || [];
+                  chunks.forEach(chunk => bot.sendMessage(this.chatId, chunk));
+                  this.outputBuffer = '';
+                  return;
+              }
+              // 만약 content가 없으면(undefined), AI가 도구만 사용하고 마크다운 메시지를 생성하지 않은 경우입니다.
+              // 이때는 버퍼를 지우지 않고 아래의 TUI Fallback 로직이 터미널 화면을 보내도록 넘깁니다!
           }
+
           // 터미널 프롬프트('>')가 다시 나타날 때까지(작업 중)는 TUI 찌꺼기를 보내지 않고 대기
           const plainOutput = this.outputBuffer.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
           if (!plainOutput.trim().endsWith('>') && !plainOutput.toLowerCase().includes('error')) {
@@ -258,6 +263,8 @@ if (TELEGRAM_TOKEN && TELEGRAM_TOKEN !== 'your_telegram_bot_token_here') {
               let finalLine = parts[parts.length - 1];
               finalLine = finalLine.replace(/^[\u2800-\u28FF]\s*/, '');
               finalLine = finalLine.replace(/\]0;.*?(\x07|\\x07|)/g, '');
+              // 줄 끝에 붙는 TUI 클리어 문자 'X' 제거 (예: 작업 요약X -> 작업 요약)
+              finalLine = finalLine.replace(/X$/, '');
               return finalLine;
             }).filter(line => {
               if (line.includes('Generating...')) return false;
@@ -265,8 +272,14 @@ if (TELEGRAM_TOKEN && TELEGRAM_TOKEN !== 'your_telegram_bot_token_here') {
               if (line.includes('esc to cancel')) return false;
               if (line.includes('? for shortcuts')) return false;
               if (line.includes('─────────────────────')) return false;
-              if (line.trim() === 'X') return false;
+              if (line.trim() === 'X' || line.trim() === '') return false;
               if (line.trim() === '>') return false;
+              // 스팸 차단: AI 중간 생각 및 도구 호출 과정 필터링
+              if (line.includes('Working...')) return false;
+              if (line.includes('▶ Thought Process')) return false;
+              if (line.includes('Interpreting User Intent')) return false;
+              if (line.match(/^●\s+[A-Za-z0-9_]+\(/)) return false; // 예: "● ListDir("
+              if (line.match(/^(I will|Thinking|Evaluating)\s/)) return false; // 생각 과정
               return true;
             }).join('\n').trim();
 
