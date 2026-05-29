@@ -45,6 +45,35 @@ function extractMenuOptions(buffer) {
     return options;
 }
 
+// 터미널 출력에서 권한 요청(Permission) 프롬프트를 파싱하는 함수
+function extractPermissionOptions(buffer) {
+    if (!buffer.includes('Do you want to proceed?')) return [];
+    
+    const lines = buffer.split('\n');
+    const options = [];
+    let inPrompt = false;
+    
+    for (let line of lines) {
+        if (line.includes('Do you want to proceed?')) {
+            inPrompt = true;
+            continue;
+        }
+        if (inPrompt) {
+            // 예: "> 1. Yes", "  2. Yes, and always allow..."
+            const match = line.match(/^\s*(>)?\s*(\d+)\.\s+(.+)$/);
+            if (match) {
+                options.push({
+                    number: match[2],
+                    text: match[3].trim()
+                });
+            } else if (line.trim() === '' && options.length > 0) {
+                break; // 옵션이 끝난 빈 줄
+            }
+        }
+    }
+    return options;
+}
+
 // transcript.jsonl 파일에서 가장 최근 AI의 깨끗한 마크다운 응답을 가져오는 함수
 function getLatestTranscriptResponse(sentText) {
     try {
@@ -66,7 +95,7 @@ function getLatestTranscriptResponse(sentText) {
             for (let i = lines.length - 1; i >= 0; i--) {
                 if (!lines[i].trim()) continue;
                 const step = JSON.parse(lines[i]);
-                if (step.source === 'MODEL' && (step.type === 'PLANNER_RESPONSE' || step.type === 'AGENT_RESPONSE') && !lastModelResponse) {
+                if (step.source === 'MODEL' && (step.type === 'PLANNER_RESPONSE' || step.type === 'AGENT_RESPONSE') && step.status === 'DONE' && !lastModelResponse) {
                     lastModelResponse = step;
                 }
                 if (step.source === 'USER_EXPLICIT' && step.type === 'USER_INPUT') {
@@ -190,15 +219,31 @@ if (TELEGRAM_TOKEN && TELEGRAM_TOKEN !== 'your_telegram_bot_token_here') {
              }
           }
 
-          if (this.outputBuffer.includes('esc to cancel') || this.outputBuffer.includes('? for shortcuts')) {
-             const latestResponse = getLatestTranscriptResponse(this.lastUserMessage);
-             if (latestResponse && latestResponse.step_index > this.lastSentStepIndex) {
-                 this.lastSentStepIndex = latestResponse.step_index;
-                 const chunks = latestResponse.content.match(/[\s\S]{1,4000}/g) || [];
-                 chunks.forEach(chunk => bot.sendMessage(this.chatId, chunk));
-                 this.outputBuffer = '';
-                 return;
+          if (this.outputBuffer.includes('Do you want to proceed?')) {
+             const permOptions = extractPermissionOptions(this.outputBuffer);
+             if (permOptions.length > 0) {
+                const inlineKeyboard = permOptions.map(opt => [{ 
+                    text: `${opt.number}. ${opt.text}`, 
+                    callback_data: `PERM_${opt.number}` 
+                }]);
+                
+                bot.sendMessage(this.chatId, "⚠️ **권한 요청 (Permission Required)**", {
+                  reply_markup: { inline_keyboard: inlineKeyboard },
+                  parse_mode: 'Markdown'
+                }).catch(err => console.error(err));
+                this.outputBuffer = '';
+                return;
              }
+          }
+
+          // 항상 트랜스크립트를 확인해서 새로운 AI 답변(DONE)이 완성되었다면 가장 우선적으로 전송
+          const latestResponse = getLatestTranscriptResponse(this.lastUserMessage);
+          if (latestResponse && latestResponse.step_index > this.lastSentStepIndex) {
+              this.lastSentStepIndex = latestResponse.step_index;
+              const chunks = latestResponse.content.match(/[\s\S]{1,4000}/g) || [];
+              chunks.forEach(chunk => bot.sendMessage(this.chatId, chunk));
+              this.outputBuffer = '';
+              return;
           }
 
           if (this.outputBuffer.trim()) {
@@ -403,6 +448,22 @@ if (TELEGRAM_TOKEN && TELEGRAM_TOKEN !== 'your_telegram_bot_token_here') {
 
     const session = sessions.get(chatId);
     if (!session) return;
+
+    if (data.startsWith('PERM_')) {
+      const number = data.replace('PERM_', '');
+      
+      session.isMutedForTelegram = true;
+      setTimeout(() => { session.isMutedForTelegram = false; }, 2000);
+      
+      // 권한 응답 시에는 메뉴 탈출용 Ctrl+C를 보내면 안 됨! 바로 응답 숫자 전송
+      if (session.agy.ptyProcess) session.agy.ptyProcess.write(number + '\r');
+      
+      bot.editMessageText(`✅ 권한 승인 완료: 선택 ${number}`, {
+        chat_id: chatId, message_id: messageId
+      }).catch(err => {});
+      bot.answerCallbackQuery(query.id).catch(err => {});
+      return;
+    }
 
     if (data.startsWith('MODEL_')) {
       const modelIndex = parseInt(data.replace('MODEL_', ''), 10);
