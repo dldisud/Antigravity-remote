@@ -1,0 +1,49 @@
+[?25l/[11;1H> /add-dir                                     Add a directory to the workspace[K
+  /agents                                      List available custom agents[K
+  /artifact                                    View and review artifacts[K
+  /btw                                         Ask a side question without interrupting the current task[K
+  /changelog                                   Show release notes and changes[K
+   ↓ 46 more[K
+[K
+  ↑/↓ Navigate · enter Select · tab Complete[K
+? for shortcuts                                                                                Gemini 3.5 Flash (Medium)[9;4H[?25h[?25l/model[11;4Hmodel  Set a model[K
+[K
+  ↑/↓ Navigate · enter Select · tab Complete[K
+esc to cancel                                                                                  Gemini 3.5 Flash (Medium)
+[K
+[K
+[K
+[K
+                                                                                                                        
+[K
+[K
+[K
+[K
+[K
+[K
+[K
+[K
+[K
+[K
+[K
+[K
+[K
+[K
+[K
+[K
+[K
+[K
+[K
+[K
+[K[9;9H[?25h[0 q[?25l[9;3H[K[11;1HSwitch Model[K[13;1H> Gemini 3.5 Flash (Medium)    (current)[K
+  Gemini 3.5 Flash (High)[K
+  Gemini 3.5 Flash (Low)[K
+  Gemini 3.1 Pro (Low)[K
+  Gemini 3.1 Pro (High)[K
+  Claude Sonnet 4.6 (Thinking)[K
+  Claude Opus 4.6 (Thinking)[K
+  GPT-OSS 120B (Medium)[K
+[K
+Keyboard: ↑/↓ Navigate  enter Select  esc Go Back[K
+[K
+esc to cancel                                                                                  Gemini 3.5 Flash (Medium)

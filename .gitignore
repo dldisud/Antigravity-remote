@@ -5,3 +5,5 @@ node_modules/
 artifacts/
 refactor_server.js
 refactor_server2.js
+probe_*.txt
+recent_projects.json

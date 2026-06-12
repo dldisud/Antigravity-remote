@@ -50,11 +50,18 @@ npm start
 
 ## 🕹️ Telegram Commands
 
-- `/set_project`: Opens the inline file explorer to set up your working project folder.
-- `/close`: Immediately kills the bot session connected to the current chat room to save memory.
+- `/set_project`: Opens the inline file explorer (with recent-folder shortcuts and drive switching) to set up your working project folder.
+- `/status`: Shows the current session folder, uptime, and whether the AI is busy.
+- `/stop`: Cancels the AI task currently in progress (sends ESC).
+- `/model`: Opens the model menu — it is automatically rendered as Telegram buttons.
 - `/skills`: Shows a list of special skills the AI can use as clickable buttons.
-- `/model`: Opens a button menu to change the AI model (Gemini, Claude, etc.).
 - `/clear`: Clears the AI's conversation history context cleanly.
+- `/resume`: Browse and resume past conversations (rendered as buttons).
+- `/up` `/down` `/enter` `/esc`: Manual key presses for driving TUI menus directly.
+- `/close`: Immediately kills the bot session connected to the current chat room to save memory.
+- `/help`: Shows the full usage guide.
+
+> Any selection menu that appears in the terminal (folder trust prompt, model picker, permission requests, etc.) is automatically converted into inline buttons.
 
 ---
 
@@ -104,8 +111,15 @@ npm start
 
 ## 🕹️ 텔레그램 명령어 목록
 
-- `/set_project`: 인라인 탐색기를 열어 작업할 프로젝트 폴더를 설정합니다.
-- `/close`: 현재 연결된 프로젝트 봇 세션을 즉시 종료하여 메모리를 아낍니다.
+- `/set_project`: 인라인 탐색기를 열어 작업할 프로젝트 폴더를 설정합니다. (최근 폴더 바로가기, 드라이브 전환 지원)
+- `/status`: 현재 세션 폴더, 가동 시간, AI 작업 상태를 보여줍니다.
+- `/stop`: 진행 중인 AI 작업을 취소합니다 (ESC 전송).
+- `/model`: 모델 선택 메뉴를 엽니다 — 자동으로 텔레그램 버튼으로 변환됩니다.
 - `/skills`: 봇이 사용할 수 있는 특수 스킬 목록을 버튼 형태로 띄워줍니다.
-- `/model`: AI 모델(Gemini, Claude 등)을 변경할 수 있는 버튼을 띄워줍니다.
 - `/clear`: AI의 컨텍스트(대화 기록)를 깔끔하게 초기화합니다.
+- `/resume`: 이전 대화 목록을 버튼으로 띄워 이어할 수 있습니다.
+- `/up` `/down` `/enter` `/esc`: TUI 메뉴를 직접 조작할 수 있는 수동 키 입력.
+- `/close`: 현재 연결된 프로젝트 봇 세션을 즉시 종료하여 메모리를 아낍니다.
+- `/help`: 전체 사용법을 보여줍니다.
+
+> 터미널에 뜨는 모든 선택 메뉴(폴더 신뢰 확인, 모델 선택, 권한 요청 등)는 자동으로 인라인 버튼으로 변환됩니다.
